@@ -1,5 +1,9 @@
 <div class="results-container">
+  <h4>{{ err }}</h4>
+  <input #query
+  (keyup.enter)="search(query.value)"
+  (blur)="search(query.value); query.value='' ">
   <div class="results">
-    <Result *ngFor="let result of results"></Result>
+    <Result *ngFor="let result of results" [result]="result"></Result>
   </div>
 </div>

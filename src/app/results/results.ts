@@ -21,14 +21,27 @@ export class Result {
 export class Results {
   public results: Result[];
   public result: Result;
+  public err: string;
 
   constructor(public http: Http) {
-    this.getResults().subscribe(newResult => this.results = newResult);
+    // this.getResults().subscribe(newResult => this.results = newResult);
   }
 
-  getResults(): Observable<Result[]> {
+  // getResults(): Observable<Result[]> {
+  //   return this.http
+  //     .get('app/results/sampleResults.json')
+  //     .map(response => response.json());
+  // }
+
+  search(query: string) {
+    if(!query) { return; }
     return this.http
-      .get('app/results/sampleResults.json')
-      .map(response => response.json());
+      .post('/search?query=' + query, {}, {})
+      .map(response => response.json())
+      .subscribe(
+        data => this.results = data,
+        err => this.err = err,
+        () => this.err = null
+      );
   }
 }

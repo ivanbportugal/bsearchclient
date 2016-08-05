@@ -1,10 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Result} from './results';
 
 @Component({
-  selector: 'result',
+  selector: 'Result',
   template: require('./result.html')
 })
 export class ResultComponent {
-  public result: Result;
+  @Input() result: Result;
 }

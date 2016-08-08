@@ -47,6 +47,7 @@ export class Results {
   public results: Result[];
   public result: Result;
   public err: string;
+  public timer;
 
   constructor(public http: Http) {
     this.getResults().subscribe(newResult => this.results = newResult);
@@ -60,13 +61,17 @@ export class Results {
 
   search(query: string) {
     if (!query) { return; }
-    return this.http
-      .post('/search?query=' + query, {}, {})
-      .map(response => response.json())
-      .subscribe(
-        data => this.results = data,
-        err => this.err = 'There is a problem getting data right now, please try again later.',
-        () => this.err = null
-      );
+    var self = this;
+    clearTimeout(this.timer);
+    this.timer = setTimeout(function() {
+      return self.http
+        .post('/search?query=' + query, {}, {})
+        .map(response => response.json())
+        .subscribe(
+          data => self.results = data,
+          err => self.err = 'There is a problem getting data right now, please try again later.',
+          () => self.err = null
+        );
+     }, 200);
   }
 }

@@ -2,7 +2,7 @@
   <h4 class="error">{{ err }}</h4>
   <div class="user-input">
 	  <i class="icon-magnifier"></i> <input #query @flyInOut
-	  (keyup.enter)="search(query.value)"
+	  (keyup)="search(query.value)"
 	  (blur)="search(query.value); query.value='' ">
   </div>
   <div class="results">

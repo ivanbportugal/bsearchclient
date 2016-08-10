@@ -50,17 +50,22 @@ export class Results {
   public timer;
 
   constructor(public http: Http) {
-    this.getResults().subscribe(newResult => this.results = newResult);
+    // this.getResults().subscribe(newResult => this.results = newResult);
   }
 
-  getResults(): Observable<Result[]> {
-    return this.http
-      .get('app/results/sampleResults.json')
-      .map(response => response.json());
-  }
+  // getResults(): Observable<Result[]> {
+  //   return this.http
+  //     .get('app/results/sampleResults.json')
+  //     .map(response => response.json());
+  // }
 
   search(query: string) {
-    if (!query) { return; }
+    // Would yield too many results
+    if (!query || query.length < 2) { 
+      this.results = [];
+      return;
+    }
+
     var self = this;
     clearTimeout(this.timer);
     this.timer = setTimeout(function() {

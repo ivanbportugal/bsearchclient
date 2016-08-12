@@ -2,10 +2,14 @@
   <h4 class="error">{{ err }}</h4>
   <div class="user-input">
 	  <i class="icon-magnifier"></i> <input #query @flyInOut
-	  (keyup)="search(query.value)"
-	  (blur)="search(query.value); query.value='' ">
+	  (keyup)="search(query.value)" placeholder="comma-separated">
+	  <span class="count" [style.color]="getStyle(results.length)">{{results.length}}</span>
   </div>
-  <div class="results">
-    <Result *ngFor="let result of results" [result]="result"></Result>
+  <div class="results"
+  		infinite-scroll
+        [infiniteScrollDistance]="20"
+        [infiniteScrollThrottle]="200"
+        (scrolled)="onScroll()">
+    <Result class="flyIn" *ngFor="let result of visibleResults" [result]="result"></Result>
   </div>
 </div>

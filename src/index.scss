@@ -104,6 +104,13 @@ a {
       border: 2px solid #999999;
       background-color: #FBFBFB;
     }
+    .count {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 1rem;
+      font-size: 1.5rem;
+    }
   }
   .results {
     margin: 0 3rem;
@@ -111,4 +118,57 @@ a {
       border-bottom: 1px solid #333;
     }
   }
+}
+
+@-webkit-keyframes fly-in {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@-moz-keyframes fly-in {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@-o-keyframes fly-in {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@keyframes fly-in {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+.flyIn {
+  animation: fly-in 0.5s;
 }

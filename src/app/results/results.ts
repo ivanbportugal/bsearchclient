@@ -6,6 +6,7 @@ import {
   transition,
   animate
 } from '@angular/core';
+import { InfiniteScroll } from 'angular2-infinite-scroll';
 import {Http, HTTP_PROVIDERS} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
@@ -22,7 +23,7 @@ export class Result {
 @Component({
   selector: 'Results',
   template: require('./results.html'),
-  directives: [ResultComponent],
+  directives: [ResultComponent, InfiniteScroll],
   providers: [HTTP_PROVIDERS],
   animations: [
     trigger('flyInOut', [
@@ -48,9 +49,16 @@ export class Results {
   public result: Result;
   public err: string;
   public timer;
+  public visibleResults: Result[];
 
   constructor(public http: Http) {
-    // this.getResults().subscribe(newResult => this.results = newResult);
+    this.results = [];
+    this.visibleResults = [];
+
+    // this.getResults().subscribe(newResult => {
+    //   this.results = newResult;
+    //   this.onScroll();
+    // });
   }
 
   // getResults(): Observable<Result[]> {
@@ -59,10 +67,24 @@ export class Results {
   //     .map(response => response.json());
   // }
 
+  onScroll() {
+    var page = 10;
+    var distanceToTheEnd = (this.results.length - this.visibleResults.length);
+    if (distanceToTheEnd < page) {
+      page = distanceToTheEnd;
+    }
+
+    var indexTo = this.visibleResults.length + page;
+    for (var i = this.visibleResults.length; i < indexTo; i++) {
+      this.visibleResults.push(this.results[i]);
+    }
+  }
+
   search(query: string) {
-    // Would yield too many results
-    if (!query || query.length < 2) { 
+    // would yield too many results
+    if (!query || query.length < 2) {
       this.results = [];
+      this.visibleResults = [];
       return;
     }
 
@@ -73,10 +95,26 @@ export class Results {
         .post('/search?query=' + query, {}, {})
         .map(response => response.json())
         .subscribe(
-          data => self.results = data,
+          data => {
+            self.results = data;
+            self.visibleResults = [];
+            self.onScroll();
+          },
           err => self.err = 'There is a problem getting data right now, please try again later.',
           () => self.err = null
         );
      }, 200);
+  }
+
+  getStyle(number) {
+    if (number == 0) {
+      return '#777';
+    } else if (number > 0 && number <= 20) {
+      return 'green';
+    } else if (number > 20 && number <= 70) {
+      return 'orange';
+    } else {
+      return 'red';
+    }
   }
 }

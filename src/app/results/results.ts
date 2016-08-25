@@ -100,7 +100,12 @@ export class Results {
             self.visibleResults = [];
             self.onScroll();
           },
-          err => self.err = 'There is a problem getting data right now, please try again later.',
+          err => {
+            self.err = 'There is a problem getting data right now. Retrying...';
+            setTimeout(function() {
+              this.search(query);
+            }, 300);
+          },
           () => self.err = null
         );
      }, 200);

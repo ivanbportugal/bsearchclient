@@ -1,8 +1,8 @@
-<div class="results-container">
+<div id="results-container" class="results-container">
   <h4 class="error">{{ err }}</h4>
   <div class="user-input">
-	  <i class="icon-magnifier"></i> <input #query @flyInOut
-	  (keyup)="search(query.value)" placeholder="comma-separated">
+	  <i class="icon-magnifier"></i> <input #query
+      (keyup)="search(query.value)" placeholder="comma-separated">
 	  <span class="count" [style.color]="getStyle(results.length)">{{results.length}}</span>
   </div>
   <div class="results"

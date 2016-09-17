@@ -88,7 +88,7 @@ a {
   }
   .user-input {
     position: relative;
-    margin: 0.5rem 1rem;
+    margin: 0.5rem 0.5rem;
     .icon-magnifier {
       position: absolute;
       top: 0; left: 0;
@@ -113,11 +113,19 @@ a {
     }
   }
   .results {
-    margin: 0 3rem;
+    margin: 0 1.5rem;
     .result {
       border-bottom: 1px solid #333;
     }
   }
+}
+
+.highlighted {
+  background-color: #FFFC52;
+  font-size: 18px;
+  -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
 
 @-webkit-keyframes fly-in {

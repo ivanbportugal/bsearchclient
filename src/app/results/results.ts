@@ -1,5 +1,6 @@
 import {
   Component,
+  Input,
   trigger,
   state,
   style,
@@ -24,25 +25,7 @@ export class Result {
   selector: 'Results',
   template: require('./results.html'),
   directives: [ResultComponent, InfiniteScroll],
-  providers: [HTTP_PROVIDERS],
-  animations: [
-    trigger('flyInOut', [
-      state('in', style({transform: 'translateX(0)'})),
-      transition('void => *', [
-        style({
-          opacity: 0,
-          transform: 'translateX(-100%)'
-        }),
-        animate('0.2s ease-in')
-      ]),
-      transition('* => void', [
-        animate('0.2s 10 ease-out', style({
-          opacity: 0,
-          transform: 'translateX(100%)'
-        }))
-      ])
-    ])
-  ]
+  providers: [HTTP_PROVIDERS]
 })
 export class Results {
   public results: Result[];
@@ -50,6 +33,7 @@ export class Results {
   public err: string;
   public timer;
   public visibleResults: Result[];
+  private queryValue: string;
 
   constructor(public http: Http) {
     this.results = [];
@@ -76,11 +60,21 @@ export class Results {
 
     var indexTo = this.visibleResults.length + page;
     for (var i = this.visibleResults.length; i < indexTo; i++) {
+      this.highlightResult(this.results[i], this.queryValue);
       this.visibleResults.push(this.results[i]);
     }
   }
 
+  highlightResult(result: any, query: string) {
+    var commaSep = query.split(',');
+    for (var i = 0; i < commaSep.length; ++i) {
+      var reg = new RegExp(commaSep[i], "gi");
+      result.verse = result.verse.replace(reg, '<span class="highlighted">' + commaSep[i] + '</span>');
+    }
+  }
+
   search(query: string) {
+    this.queryValue = query;
     // would yield too many results
     if (!query || query.length < 2) {
       this.results = [];
@@ -103,7 +97,7 @@ export class Results {
           err => {
             self.err = 'There is a problem getting data right now. Retrying...';
             setTimeout(function() {
-              this.search(query);
+              self.search(query);
             }, 300);
           },
           () => self.err = null
@@ -122,4 +116,5 @@ export class Results {
       return 'red';
     }
   }
+
 }

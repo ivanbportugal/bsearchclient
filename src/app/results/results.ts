@@ -68,8 +68,10 @@ export class Results {
   highlightResult(result: any, query: string) {
     var commaSep = query.split(',');
     for (var i = 0; i < commaSep.length; ++i) {
-      var reg = new RegExp(commaSep[i], "gi");
-      result.verse = result.verse.replace(reg, '<span class="highlighted">' + commaSep[i] + '</span>');
+      if(commaSep[i].length > 0) {
+        var reg = new RegExp(commaSep[i], "gi");
+        result.verse = result.verse.replace(reg, '<span class="highlighted">' + commaSep[i] + '</span>');
+      }
     }
   }
 
